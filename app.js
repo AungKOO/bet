@@ -2,6 +2,7 @@ var date = new Date();
 $("h2.date-time").html(date.toLocaleDateString('en-US'));
 $("div.delete").click(function (e) {
     $("#table-canvas tr:first-child").hide();
+    $("table.table-result").addClass("d-none");
     $("#table-canvas tr.toggle").remove();
 });
 
@@ -18,7 +19,7 @@ $("div.save").click(function (e) {
         alert('no data');
         return;
     }
-    html2canvas(document.getElementById('table-canvas')).then(function (canvas) {
+    html2canvas(document.getElementById('div-canvas')).then(function (canvas) {
         console.log(canvas.toDataURL());
         canvas.toBlob(function (blob) {
             saveAs(blob, "Table Result.png");
@@ -33,6 +34,8 @@ function add(that) {
      const betAmount = addParentTr.find('.input-bet-amount').val();
      const odd = addParentTr.find('.input-odd').val();
      const matchResult = addParentTr.find('.input-match-result').val();
+     const winLoss = addParentTr.find('.win-loss').val();
+     const homeAway = addParentTr.find('.home-away').val();
      const percentage = addParentTr.find('.input-percentage').val();
  
      // validation
@@ -40,6 +43,7 @@ function add(that) {
          alert('Please enter at least one input');
          return;
      }
+     
  
      // add 
      $("#table-canvas tr:first-child").show();
@@ -49,6 +53,8 @@ function add(that) {
              <td>${betAmount}</td>
              <td>${odd}</td>
              <td>${matchResult}</td>
+             <td>${homeAway}</td>
+             <td>${winLoss}</td>
              <td>${percentage}</td>
              <td></td>
          </tr>
@@ -73,4 +79,14 @@ $("#table-input input").keypress(function (e) {
 
 $("div.add").click(function (e) {
     add($(this));
+});
+
+function caculate()
+{
+$("table.table-result").removeClass("d-none");
+}
+
+$("div.caculate").click(function (e) { 
+
+    caculate();
 });
