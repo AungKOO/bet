@@ -34,6 +34,8 @@ function add(that) {
      const betAmount = addParentTr.find('.input-bet-amount').val();
      const odd = addParentTr.find('.input-odd').val();
      const matchResult = addParentTr.find('.input-match-result').val();
+     const winLoss = addParentTr.find('.win-loss').val();
+     const homeAway = addParentTr.find('.home-away').val();
      const percentage = addParentTr.find('.input-percentage').val();
  
      // validation
@@ -41,6 +43,7 @@ function add(that) {
          alert('Please enter at least one input');
          return;
      }
+     
  
      // add 
      $("#table-canvas tr:first-child").show();
@@ -50,6 +53,8 @@ function add(that) {
              <td>${betAmount}</td>
              <td>${odd}</td>
              <td>${matchResult}</td>
+             <td>${homeAway}</td>
+             <td>${winLoss}</td>
              <td>${percentage}</td>
              <td></td>
          </tr>
