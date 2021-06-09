@@ -10,7 +10,7 @@ $("div.delete-last-one").click(function (e) {
     $("#table-canvas tr.toggle:last").remove();
     if ($("#table-canvas tr.toggle").length <= 0) {
         $("#table-canvas tr:first-child").hide();
-    }    
+    }
 });
 
 $("div.save").click(function (e) {
@@ -28,26 +28,26 @@ $("div.save").click(function (e) {
 });
 
 function add(that) {
-     // get value from input
-     const addParentTr = that.parents('tr');
-     const match = addParentTr.find('.input-match').val();
-     const betAmount = addParentTr.find('.input-bet-amount').val();
-     const odd = addParentTr.find('.input-odd').val();
-     const matchResult = addParentTr.find('.input-match-result').val();
-     const winLoss = addParentTr.find('.win-loss').val();
-     const homeAway = addParentTr.find('.home-away').val();
-     const percentage = addParentTr.find('.input-percentage').val();
- 
-     // validation
-     if (!match && !betAmount && !odd && !matchResult && !percentage) {
-         alert('Please enter at least one input');
-         return;
-     }
-     
- 
-     // add 
-     $("#table-canvas tr:first-child").show();
-     $("#table-canvas > tbody").append(`
+    // get value from input
+    const addParentTr = that.parents('tr');
+    const match = addParentTr.find('.input-match').val();
+    const betAmount = addParentTr.find('.input-bet-amount').val();
+    const odd = addParentTr.find('.input-odd').val();
+    const matchResult = addParentTr.find('.input-match-result').val();
+    const winLoss = addParentTr.find('.win-loss').val();
+    const homeAway = addParentTr.find('.home-away').val();
+    const percentage = addParentTr.find('.input-percentage').val();
+
+    // validation
+    if (!match) {
+        alert('Please enter Match input');
+        return;
+    }
+
+
+    // add 
+    $("#table-canvas tr:first-child").show();
+    $("#table-canvas > tbody").append(`
          <tr class="toggle">
              <td>${match}</td>      
              <td>${betAmount}</td>
@@ -59,13 +59,15 @@ function add(that) {
              <td></td>
          </tr>
      `);
- 
-     // make empty
-     addParentTr.find('.input-match').val("");
-     addParentTr.find('.input-bet-amount').val("");
-     addParentTr.find('.input-odd').val("");
-     addParentTr.find('.input-match-result').val("");
-     addParentTr.find('.input-percentage').val("");
+
+    // reset
+    addParentTr.find('.input-match').val("");
+    addParentTr.find('.input-bet-amount').val("");
+    addParentTr.find('.input-odd').val("");
+    addParentTr.find('.input-match-result').val("");
+    addParentTr.find('.home-away').val("H");
+    addParentTr.find('.win-loss').val("W");
+    addParentTr.find('.input-percentage').val(5);
 }
 
 $("#table-input input").keypress(function (e) {
@@ -81,12 +83,21 @@ $("div.add").click(function (e) {
     add($(this));
 });
 
-function caculate()
-{
-$("table.table-result").removeClass("d-none");
+function caculate() {
+    $("table.table-result").removeClass("d-none");
 }
 
-$("div.caculate").click(function (e) { 
+$("div.caculate").click(function (e) {
 
     caculate();
+});
+
+// event listener
+$("select.win-loss").change(function () {
+    const selectedVal = $(this).val();
+    if (selectedVal.toLowerCase() == 'w') {
+        $('select.input-percentage').val('5');
+    } else if (selectedVal.toLowerCase() == 'l') {
+        $('select.input-percentage').val('');
+    }
 });
