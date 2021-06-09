@@ -31,16 +31,19 @@ function add(that) {
     // get value from input
     const addParentTr = that.parents('tr');
     const match = addParentTr.find('.input-match').val();
-    const betAmount = addParentTr.find('.input-bet-amount').val();
+    const betAmount = parseInt(addParentTr.find('.input-bet-amount').val());
     const odd = addParentTr.find('.input-odd').val();
     const matchResult = addParentTr.find('.input-match-result').val();
     const winLoss = addParentTr.find('.win-loss').val();
     const homeAway = addParentTr.find('.home-away').val();
-    const percentage = addParentTr.find('.input-percentage').val();
+    const percentage = parseInt(addParentTr.find('.input-percentage').val());
     let total;
     let expectedGoal;
     let currentOdd;
-    let w,l;
+    let w = parseInt(matchResult.slice(0, matchResult.indexOf('-')));
+    let l = parseInt(matchResult.slice(matchResult.indexOf('-')+1));
+    let result = w - l;
+    alert(result);
     // validation
     if (!match) {
         alert('Please enter Match input');
@@ -52,24 +55,36 @@ function add(that) {
     {
         // getting odd to indiviudal 1+70 -> 1 , 70
         expectedGoal = parseInt(odd.slice(0, odd.indexOf('+')));
-        currentOdd = parseInt(odd.slice(odd.indexOf('+')));
-        w = parseInt(matchResult.slice(0, matchResult.indexOf('-')));
-        l = parseInt(matchResult.slice(matchResult.indexOf('-')));
+        currentOdd = parseInt(odd.slice(odd.indexOf('+')+1));
+        
         console.log(w, l);
-        let result = w - l;
+        
         if (result > expectedGoal)
         {
-            total = betAmount;
+            total = betAmount - (betAmount * (percentage / 100));
         }
-        else if (result === expectedGoal)
+        else if (result == expectedGoal)
         {
-            total = betAmount * (odd / 100);
+            total = (betAmount * (currentOdd / 100));
+            total = total - (total * (percentage / 100))
         }
 
     }
     else
     {
+        // getting odd to indiviudal 1+70 -> 1 , 70
+        expectedGoal = parseInt(odd.slice(0, odd.indexOf('-')));
+        currentOdd = parseInt(odd.slice(odd.indexOf('-')+1));
 
+        if (result < expectedGoal)
+        {
+            total = -betAmount; 
+        }
+        else if (result == expectedGoal)
+        {
+            total = -(betAmount * (currentOdd / 100));
+        }
+        
     }
 
     // add 
@@ -82,7 +97,7 @@ function add(that) {
              <td>${matchResult}</td>
              <td>${homeAway}</td>
              <td>${winLoss}</td>
-             <td>${percentage}</td>
+             <td>-${percentage}%</td>
              <td>${total}</td>
          </tr>
      `);
