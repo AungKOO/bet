@@ -37,13 +37,40 @@ function add(that) {
     const winLoss = addParentTr.find('.win-loss').val();
     const homeAway = addParentTr.find('.home-away').val();
     const percentage = addParentTr.find('.input-percentage').val();
-
+    let total;
+    let expectedGoal;
+    let currentOdd;
+    let w,l;
     // validation
     if (!match) {
         alert('Please enter Match input');
         return;
     }
+    //  total add logic
 
+    if (winLoss === 'W')
+    {
+        // getting odd to indiviudal 1+70 -> 1 , 70
+        expectedGoal = parseInt(odd.slice(0, odd.indexOf('+')));
+        currentOdd = parseInt(odd.slice(odd.indexOf('+')));
+        w = parseInt(matchResult.slice(0, matchResult.indexOf('-')));
+        l = parseInt(matchResult.slice(matchResult.indexOf('-')));
+        console.log(w, l);
+        let result = w - l;
+        if (result > expectedGoal)
+        {
+            total = betAmount;
+        }
+        else if (result === expectedGoal)
+        {
+            total = betAmount * (odd / 100);
+        }
+
+    }
+    else
+    {
+
+    }
 
     // add 
     $("#table-canvas tr:first-child").show();
@@ -56,7 +83,7 @@ function add(that) {
              <td>${homeAway}</td>
              <td>${winLoss}</td>
              <td>${percentage}</td>
-             <td></td>
+             <td>${total}</td>
          </tr>
      `);
 
