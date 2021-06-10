@@ -1,5 +1,7 @@
 var date = new Date();
 $("h2.date-time").html(date.toLocaleDateString("en-US")); // local broswer date
+// hide the table result if there is no data
+$("#table-canvas tr:first-child").hide();
 // clicking delete all button
 $("div.delete").click(function (e) {
   $("#table-canvas tr:first-child").hide();
@@ -13,6 +15,7 @@ $("div.delete-last-one").click(function (e) {
     $("#table-canvas tr:first-child").hide();
   }
 });
+
 // clicking save button
 $("div.save").click(function (e) {
   console.log(`save`);
