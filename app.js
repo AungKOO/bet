@@ -140,6 +140,13 @@ $("div.add").click(function (e) {
 });
 
 function caculate() {
+    let length = $('#table-canvas tr.toggle').length; // length of actual rows exclude header row
+    let totalStr = $('#table-canvas tr.toggle td:last-child').html();
+    
+    for (var i = 0; i < length; i++)
+    {
+        console.log(typeof totalStr);
+    }
     $("table.table-result").removeClass("d-none");
 }
 
