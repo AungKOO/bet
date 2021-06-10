@@ -1,97 +1,86 @@
 var date = new Date();
-$("h2.date-time").html(date.toLocaleDateString('en-US'));
+$("h2.date-time").html(date.toLocaleDateString("en-US")); // local broswer date
+// clicking delete all button
 $("div.delete").click(function (e) {
-    $("#table-canvas tr:first-child").hide();
-    $("table.table-result").addClass("d-none");
-    $("#table-canvas tr.toggle").remove();
+  $("#table-canvas tr:first-child").hide();
+  $("table.table-result").addClass("d-none");
+  $("#table-canvas tr.toggle").remove();
 });
-
+// clicking delete last one button
 $("div.delete-last-one").click(function (e) {
-    $("#table-canvas tr.toggle:last").remove();
-    if ($("#table-canvas tr.toggle").length <= 0) {
-        $("#table-canvas tr:first-child").hide();
-    }
+  $("#table-canvas tr.toggle:last").remove();
+  if ($("#table-canvas tr.toggle").length <= 0) {
+    $("#table-canvas tr:first-child").hide();
+  }
 });
-
+// clicking save button
 $("div.save").click(function (e) {
-    console.log(`save`);
-    if ($("#table-canvas tr.toggle").length <= 0) {
-        alert('no data');
-        return;
-    }
-    html2canvas(document.getElementById('div-canvas')).then(function (canvas) {
-        console.log(canvas.toDataURL());
-        canvas.toBlob(function (blob) {
-            saveAs(blob, "Table Result.png");
-        });
+  console.log(`save`);
+  if ($("#table-canvas tr.toggle").length <= 0) {
+    alert("no data");
+    return;
+  }
+  html2canvas(document.getElementById("div-canvas")).then(function (canvas) {
+    console.log(canvas.toDataURL());
+    canvas.toBlob(function (blob) {
+      saveAs(blob, "Table Result.png");
     });
+  });
 });
 
 function add(that) {
-    // get value from input
-    const addParentTr = that.parents('tr');
-    const match = addParentTr.find('.input-match').val();
-    const betAmount = parseInt(addParentTr.find('.input-bet-amount').val());
-    const odd = addParentTr.find('.input-odd').val();
-    const matchResult = addParentTr.find('.input-match-result').val();
-    const winLoss = addParentTr.find('.win-loss').val();
-    const homeAway = addParentTr.find('.home-away').val();
-    const percentage = parseInt(addParentTr.find('.input-percentage').val());
-    let total;
-    let expectedGoal;
-    let currentOdd;
-    let w = parseInt(matchResult.slice(0, matchResult.indexOf('-')));
-    let l = parseInt(matchResult.slice(matchResult.indexOf('-')+1));
-    let result = w - l;
-    // alert(result);
-    // validation
-    if (!match) {
-        alert('Please enter Match input');
-        return;
+  // get value from input
+  const addParentTr = that.parents("tr");
+  const match = addParentTr.find(".input-match").val();
+  const betAmount = parseInt(addParentTr.find(".input-bet-amount").val());
+  const odd = addParentTr.find(".input-odd").val();
+  const matchResult = addParentTr.find(".input-match-result").val();
+  const winLoss = addParentTr.find(".win-loss").val();
+  const homeAway = addParentTr.find(".home-away").val();
+  const percentage = parseInt(addParentTr.find(".input-percentage").val());
+  let total;
+  let expectedGoal;
+  let currentOdd;
+  let w = parseInt(matchResult.slice(0, matchResult.indexOf("-")));
+  let l = parseInt(matchResult.slice(matchResult.indexOf("-") + 1));
+  let result = w - l;
+  // alert(result);
+  // validation
+  if (!match) {
+    alert("Please enter Match input");
+    return;
+  }
+  //  total result of each row
+  if (winLoss === "W") {
+    // getting odd to indiviudal 1+70 -> 1 , 70
+    expectedGoal = parseInt(odd.slice(0, odd.indexOf("+")));
+    currentOdd = parseInt(odd.slice(odd.indexOf("+") + 1));
+    console.log(typeof expectedGoal);
+    console.log(typeof currentOdd);
+    console.log(w, l);
+
+    if (result > expectedGoal) {
+      total = betAmount - betAmount * (percentage / 100);
+    } else if (result == expectedGoal) {
+      total = betAmount * (currentOdd / 100);
+      total = total - total * (percentage / 100);
     }
-    //  total add logic
+  } else {
+    // getting odd to indiviudal 1+70 -> 1 , 70
+    expectedGoal = parseInt(odd.slice(0, odd.indexOf("-")));
+    currentOdd = parseInt(odd.slice(odd.indexOf("-") + 1));
 
-    if (winLoss === 'W')
-    {
-        // getting odd to indiviudal 1+70 -> 1 , 70
-        expectedGoal = parseInt(odd.slice(0, odd.indexOf('+')));
-        currentOdd = parseInt(odd.slice(odd.indexOf('+')+1));
-        console.log(typeof(expectedGoal));
-        console.log(typeof(currentOdd));
-        console.log(w, l);
-        
-        if (result > expectedGoal)
-        {
-            total = betAmount - (betAmount * (percentage / 100));
-        }
-        else if (result == expectedGoal)
-        {
-            total = (betAmount * (currentOdd / 100));
-            total = total - (total * (percentage / 100))
-        }
-
+    if (result < expectedGoal) {
+      total = -betAmount;
+    } else if (result == expectedGoal) {
+      total = -(betAmount * (currentOdd / 100));
     }
-    else
-    {
-        // getting odd to indiviudal 1+70 -> 1 , 70
-        expectedGoal = parseInt(odd.slice(0, odd.indexOf('-')));
-        currentOdd = parseInt(odd.slice(odd.indexOf('-')+1));
+  }
 
-        if (result < expectedGoal)
-        {
-            total = -betAmount; 
-        }
-        else if (result == expectedGoal)
-        {
-            total = -(betAmount * (currentOdd / 100));
-        }
-        
-    }
-
-    // add 
-    $("#table-canvas tr:first-child").show();
-    isNaN(percentage) ?
-    $("#table-canvas > tbody").append(`
+  // add
+  $("#table-canvas tr:first-child").show();
+  isNaN(percentage)
+    ? $("#table-canvas > tbody").append(`
          <tr class="toggle">
              <td>${match}</td>      
              <td>${betAmount}</td>
@@ -102,8 +91,8 @@ function add(that) {
              <td></td>
              <td>${total}</td>
          </tr>
-     `) :
-     $("#table-canvas > tbody").append(`
+     `)
+    : $("#table-canvas > tbody").append(`
          <tr class="toggle">
              <td>${match}</td>      
              <td>${betAmount}</td>
@@ -116,51 +105,70 @@ function add(that) {
          </tr>
      `);
 
-    // reset
-    addParentTr.find('.input-match').val("");
-    addParentTr.find('.input-bet-amount').val("");
-    addParentTr.find('.input-odd').val("");
-    addParentTr.find('.input-match-result').val("");
-    addParentTr.find('.home-away').val("H");
-    addParentTr.find('.win-loss').val("W");
-    addParentTr.find('.input-percentage').val(5);
+  // reset
+  addParentTr.find(".input-match").val("");
+  addParentTr.find(".input-bet-amount").val("");
+  addParentTr.find(".input-odd").val("");
+  addParentTr.find(".input-match-result").val("");
+  addParentTr.find(".home-away").val("H");
+  addParentTr.find(".win-loss").val("W");
+  addParentTr.find(".input-percentage").val(5);
 }
 
+// press enter key to work add button
 $("#table-input input").keypress(function (e) {
-    var key = e.which;
-    // 13 is enter key
-    if (key == 13) {
-        console.log('enter key');
-        add($(this));
-    }
+  var key = e.which;
+  // 13 is enter key
+  if (key == 13) {
+    console.log("enter key");
+    add($(this));
+  }
 });
 
+// click add button
 $("div.add").click(function (e) {
-    add($(this));
+  add($(this));
 });
 
 function caculate() {
-    let length = $('#table-canvas tr.toggle').length; // length of actual rows exclude header row
-    let totalStr = $('#table-canvas tr.toggle td:last-child').html();
-    
-    for (var i = 0; i < length; i++)
-    {
-        console.log(typeof totalStr);
-    }
-    $("table.table-result").removeClass("d-none");
+
+  const inputRemain = $(".input-remain").val();
+  let remain = inputRemain ? parseInt(inputRemain) : 0;
+  console.log(remain, typeof remain);
+  let overall = 0;
+  $("#table-canvas tr.toggle")
+    .find("td:last")
+    .each(function (index) {
+      console.log(parseInt($(this).text()));
+      overall += parseInt($(this).text());
+    });
+  $("td#overall").html(overall);
+  $("td#remain").html((remain));
+  $("td#total").html((overall + remain));
+  $(".input-remain").val("");
+
+
+  $("table.table-result").removeClass("d-none");
 }
 
+// clicking caculate button
 $("div.caculate").click(function (e) {
-
-    caculate();
+  caculate();
 });
 
 // event listener
 $("select.win-loss").change(function () {
-    const selectedVal = $(this).val();
-    if (selectedVal.toLowerCase() == 'w') {
-        $('select.input-percentage').val('5');
-    } else if (selectedVal.toLowerCase() == 'l') {
-        $('select.input-percentage').val('');
-    }
+  const selectedVal = $(this).val();
+  if (selectedVal.toLowerCase() == "w") {
+    $("select.input-percentage").val("5");
+  } else if (selectedVal.toLowerCase() == "l") {
+    $("select.input-percentage").val("");
+  }
 });
+
+$("input[type=text].input-name").change(function() {
+    let name = $(this).val();
+    $('h2#user-name').html(name);
+    $(this).val('');
+}
+);

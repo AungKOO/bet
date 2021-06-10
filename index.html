@@ -20,7 +20,7 @@
       <div class="container">
         <div class="row mt-3">
           <div class="col-3">
-            <h2>Eggie Roaster</h2>
+            <h2 id="user-name">Eggie Roaster</h2>
           </div>
           <div class="col-6"></div>
           <div class="col-3">
@@ -91,15 +91,15 @@
             <table class="table text-end table-striped table-result d-none">
               <tr>
                 <td>Overall Total</td>
-                <td id="overall">10000</td>
+                <td id="overall"></td>
               </tr>
               <tr>
                 <td>Remain</td>
-                <td id="remain">1000000</td>
+                <td id="remain"></td>
               </tr>
               <tr>
                 <td>Total Net</td>
-                <td id="total">1001000</td>
+                <td id="total"></td>
               </tr>
             </table>
           </div>
@@ -154,6 +154,13 @@
         </div>
         <div class="col-3 text-start">
           <input type="number" min="0" class="input-remain" />
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2 text-start">
+          <h4>Name:</h4>
+        </div>
+        <div class="col-3 text-start">
+          <input type="text" class="input-name">
         </div>
       </div>
 
