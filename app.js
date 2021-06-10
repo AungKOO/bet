@@ -43,7 +43,7 @@ function add(that) {
     let w = parseInt(matchResult.slice(0, matchResult.indexOf('-')));
     let l = parseInt(matchResult.slice(matchResult.indexOf('-')+1));
     let result = w - l;
-    alert(result);
+    // alert(result);
     // validation
     if (!match) {
         alert('Please enter Match input');
@@ -56,7 +56,8 @@ function add(that) {
         // getting odd to indiviudal 1+70 -> 1 , 70
         expectedGoal = parseInt(odd.slice(0, odd.indexOf('+')));
         currentOdd = parseInt(odd.slice(odd.indexOf('+')+1));
-        
+        console.log(typeof(expectedGoal));
+        console.log(typeof(currentOdd));
         console.log(w, l);
         
         if (result > expectedGoal)
@@ -89,7 +90,20 @@ function add(that) {
 
     // add 
     $("#table-canvas tr:first-child").show();
+    isNaN(percentage) ?
     $("#table-canvas > tbody").append(`
+         <tr class="toggle">
+             <td>${match}</td>      
+             <td>${betAmount}</td>
+             <td>${odd}</td>
+             <td>${matchResult}</td>
+             <td>${homeAway}</td>
+             <td>${winLoss}</td>
+             <td></td>
+             <td>${total}</td>
+         </tr>
+     `) :
+     $("#table-canvas > tbody").append(`
          <tr class="toggle">
              <td>${match}</td>      
              <td>${betAmount}</td>
