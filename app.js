@@ -44,9 +44,11 @@ function add(that) {
   let total;
   let expectedGoal;
   let currentOdd;
-  let w = parseInt(matchResult.slice(0, matchResult.indexOf("-")));
-  let l = parseInt(matchResult.slice(matchResult.indexOf("-") + 1));
-  let result = w - l;
+  var left, right, result;
+  // check Home or Away
+  // console.log(homeAway);
+  left = parseInt(matchResult.slice(0, matchResult.indexOf("-")));
+  right = parseInt(matchResult.slice(matchResult.indexOf("-") + 1));
   // alert(result);
   // validation
   if (!match) {
@@ -55,12 +57,19 @@ function add(that) {
   }
   //  total result of each row
   if (winLoss === "W") {
+    if (homeAway === "H") {
+      result = left - right;
+    } else if (homeAway === "A") {
+      result = right - left;
+    }
+    console.log(`left: ${left}`);
+    console.log(`right: ${right}`);
+    console.log(result);
     // getting odd to indiviudal 1+70 -> 1 , 70
     expectedGoal = parseInt(odd.slice(0, odd.indexOf("+")));
     currentOdd = parseInt(odd.slice(odd.indexOf("+") + 1));
     console.log(typeof expectedGoal);
     console.log(typeof currentOdd);
-    console.log(w, l);
 
     if (result > expectedGoal) {
       total = betAmount - betAmount * (percentage / 100);
@@ -134,7 +143,6 @@ $("div.add").click(function (e) {
 });
 
 function caculate() {
-
   const inputRemain = $(".input-remain").val();
   let remain = inputRemain ? parseInt(inputRemain) : 0;
   console.log(remain, typeof remain);
@@ -146,10 +154,9 @@ function caculate() {
       overall += parseInt($(this).text());
     });
   $("td#overall").html(overall);
-  $("td#remain").html((remain));
-  $("td#total").html((overall + remain));
+  $("td#remain").html(remain);
+  $("td#total").html(overall + remain);
   $(".input-remain").val("");
-
 
   $("table.table-result").removeClass("d-none");
 }
@@ -169,9 +176,29 @@ $("select.win-loss").change(function () {
   }
 });
 
-$("input[type=text].input-name").change(function() {
-    let name = $(this).val();
-    $('h2#user-name').html(name);
-    $(this).val('');
-}
-);
+$("input[type=text].input-name").change(function () {
+  let name = $(this).val();
+  $("h2#user-name").html(name);
+  $(this).val("");
+});
+// $("td .input-odd").keypress(function (e) {
+//   // let odd = $(".input-odd").val();
+//   // let goal =
+//   //   odd.indexOf("-") === -1
+//   //     ? parseInt(odd.slice(0, odd.indexOf("+")))
+//   //     : (goal = parseInt(odd.slice(0, odd.indexOf("-"))));
+//   // if (e.which === 13 || e.which == 9)
+//   // {
+//   //   if (goal > 15)
+//   // {
+//   //   alert();
+//   // } 
+//   // }
+//   if (e.which == 13)
+//   {
+//     alert("Enter");
+//   } else if (e.which == 9)
+//   {
+//     alert("Tab");
+//   }
+// });
