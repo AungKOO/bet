@@ -56,12 +56,13 @@ function add(that) {
     return;
   }
   //  total result of each row
+  if (homeAway === "H") {
+    result = left - right;
+  } else if (homeAway === "A") {
+    result = right - left;
+  }
   if (winLoss === "W") {
-    if (homeAway === "H") {
-      result = left - right;
-    } else if (homeAway === "A") {
-      result = right - left;
-    }
+    
     console.log(`left: ${left}`);
     console.log(`right: ${right}`);
     console.log(result);
@@ -77,6 +78,11 @@ function add(that) {
       total = betAmount * (currentOdd / 100);
       total = total - total * (percentage / 100);
     }
+    else
+    {
+      alert("something happens terrible!check match result or win loss please!");
+      return;
+    }
   } else {
     // getting odd to indiviudal 1+70 -> 1 , 70
     expectedGoal = parseInt(odd.slice(0, odd.indexOf("-")));
@@ -86,6 +92,11 @@ function add(that) {
       total = -betAmount;
     } else if (result == expectedGoal) {
       total = -(betAmount * (currentOdd / 100));
+    }
+    else
+    {
+      alert("something happens terrible!check match result or win loss please!");
+      return;
     }
   }
 
@@ -122,9 +133,9 @@ function add(that) {
   addParentTr.find(".input-bet-amount").val("");
   addParentTr.find(".input-odd").val("");
   addParentTr.find(".input-match-result").val("");
-  addParentTr.find(".home-away").val("H");
-  addParentTr.find(".win-loss").val("W");
-  addParentTr.find(".input-percentage").val(5);
+  addParentTr.find(".home-away").val("");
+  addParentTr.find(".win-loss").val("");
+  addParentTr.find(".input-percentage").val("");
 }
 
 // press enter key to work add button
