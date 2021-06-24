@@ -62,7 +62,6 @@ function add(that) {
     result = right - left;
   }
   if (winLoss === "W") {
-
     console.log(`left: ${left}`);
     console.log(`right: ${right}`);
     console.log(result);
@@ -77,8 +76,7 @@ function add(that) {
     } else if (result == expectedGoal) {
       total = betAmount * (currentOdd / 100);
       total = total - total * (percentage / 100);
-    }
-    else {
+    } else {
       // alert("something happens terrible!check match result or win loss please!");
       return;
     }
@@ -91,8 +89,7 @@ function add(that) {
       total = -betAmount;
     } else if (result == expectedGoal) {
       total = -(betAmount * (currentOdd / 100));
-    }
-    else {
+    } else {
       // alert("something happens terrible!check match result or win loss please!");
       return;
     }
@@ -134,6 +131,18 @@ function add(that) {
   addParentTr.find(".home-away").val("");
   addParentTr.find(".win-loss").val("");
   addParentTr.find(".input-percentage").val("");
+
+  // reset form submission
+  Array.prototype.slice.call(forms)
+  .forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+
+      form.classList.remove('was-validated')
+      event.preventDefault()
+      event.stopPropagation()
+
+    }, false)
+  })
 }
 
 // press enter key to work add button
@@ -201,7 +210,7 @@ $("input[type=text].input-name").change(function () {
 //   //   if (goal > 15)
 //   // {
 //   //   alert();
-//   // } 
+//   // }
 //   // }
 //   if (e.which == 13)
 //   {
@@ -212,20 +221,21 @@ $("input[type=text].input-name").change(function () {
 //   }
 // });
 
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-var forms = document.querySelectorAll('.needs-validation')
 
-// Loop over them and prevent submission
-Array.prototype.slice.call(forms)
-  .forEach(function (form) {
-    form.addEventListener('submit', function (event) {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
 
-      form.classList.add('was-validated')
-      event.preventDefault()
-      event.stopPropagation()
-    }, false)
-  })
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+
